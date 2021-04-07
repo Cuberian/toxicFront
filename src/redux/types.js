@@ -1,3 +1,5 @@
+export const SET_TOKEN = 'AUTH/SET_TOKEN'
+
 export const GET_GROUPS = 'GROUP/GET_GROUPS'
 export const FETCH_GROUPS = 'GROUP/FETCH_GROUPS'
 export const REQUEST_GROUPS = 'GROUP/REQUEST_GROUPS'

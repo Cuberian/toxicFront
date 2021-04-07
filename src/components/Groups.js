@@ -15,6 +15,7 @@ const Groups = () => {
     if(!groups.length) {
         return <button className="p-4 bg-blue-400" onClick={() => dispatch(fetchGroups())}>Загрузить</button>
     }
+
     return groups.map(group => <Group group={group} key={'group_' + group.id}/>)
 }
 

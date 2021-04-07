@@ -3,3 +3,10 @@
 @tailwind base;
 
 @tailwind utilities;
+
+.btn-green {
+    @apply mx-auto bg-green-500 hover:bg-green-700 shadow-md text-white text-lg font-semibold py-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75
+}
+.input-text {
+    @apply p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500
+}
