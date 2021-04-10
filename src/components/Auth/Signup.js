@@ -11,7 +11,7 @@ const Signup = () => {
 
     function handlerSubmit(e) {
         e.preventDefault();
-        dispatch(login({'email': emailRef.current.value, 'password': passwordRef.current.value}))
+        dispatch(login(emailRef.current.value, passwordRef.current.value))
     }
 
     return (
