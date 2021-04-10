@@ -17,15 +17,10 @@ const App = (props) => {
                 <h3 className="text-pink-500 text-center h-1/10">TOXIC API</h3>
                 <div className="flex flex-col flex-wrap space-y-6 content-center space-y-4 h-9/10">
                     <Switch>
-                        <Route path='/signup'>
-                            <Signup/>
-                        </Route>
+                        <Route path='/signup' component={Signup}/>
                         <Route path='/about' component={About}/>
                         <PrivateRoute path='/main' component={Main} />
                     </Switch>
-                </div>
-                <div>
-                    {props.alert && <Alert text={props.alert}/>}
                 </div>
             </div>
         </Router>
