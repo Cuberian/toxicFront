@@ -7,6 +7,7 @@ import Signup from "./components/Auth/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
+import Navbar from "./components/Navbar";
 
 
 const App = (props) => {
@@ -14,7 +15,7 @@ const App = (props) => {
     return (
         <Router>
             <div className="h-screen w-screen">
-                <h3 className="text-pink-500 text-center h-1/10">TOXIC API</h3>
+                <Navbar/>
                 <div className="flex flex-col flex-wrap space-y-6 content-center space-y-4 h-9/10">
                     <Switch>
                         <Route path='/signup' component={Signup}/>

@@ -19,7 +19,6 @@ export function maxLengthMiddleware({ dispatch }) {
 export function tokenExpiredMiddleware({ dispatch }) {
     return function (next) {
         return function (action) {
-
             return next(action)
         }
     }
