@@ -1,6 +1,4 @@
 import "./styles/main.css"
-import {Alert} from "./components/Alert";
-import {connect} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Signup from "./components/Auth/Signup";
@@ -14,9 +12,9 @@ const App = (props) => {
 
     return (
         <Router>
-            <div className="h-screen w-screen">
+            <div className="min-h-screen w-full flex flex-col">
                 <Navbar/>
-                <div className="flex flex-col flex-wrap space-y-6 content-center space-y-4 h-9/10">
+                <div className="flex  flex-grow">
                     <Switch>
                         <Route path='/signup' component={Signup}/>
                         <Route path='/about' component={About}/>
@@ -28,9 +26,7 @@ const App = (props) => {
     );
 }
 
-const mapStateToProps = state => ({
-    alert: state.app.alert,
-})
 
 
-export default connect(mapStateToProps, null)(App);
+
+export default App;
