@@ -1,15 +1,26 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import { useHistory } from "react-router-dom";
+
+import { useAuth } from '../../contexts/AuthContext'
 
 const Signup = (props) => {
 
     const history = useHistory();
+    const [error, setError] = useState()
 
     const emailRef = useRef()
     const passwordRef = useRef()
+    const { login } = useAuth()
 
     function handlerSubmit(e) {
         e.preventDefault();
+
+        try {
+            setError('')
+            login(emailRef.current.value, passwordRef.current.value)
+        } catch(e) {
+            setError('Ошибка авторизации')
+        }
     }
 
     return (

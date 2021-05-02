@@ -12,7 +12,7 @@ function AuthProvider({children}) {
 
     const [currentUser, setCurrentUser] = useState()
 
-    async function signup(email, password) {
+    async function login(email, password) {
         const passportResponse = await axios.post(`${process.env.REACT_APP_AUTH_HOST}/api/v1/user/login`,
             {email,password});
         const pwd_token = await passportResponse.data;
@@ -26,9 +26,24 @@ function AuthProvider({children}) {
 
     }
 
+    async function register(email, password) {
+        const passportResponse = await axios.post(`${process.env.REACT_APP_AUTH_HOST}/api/v1/user/register`,
+            {email,password});
+        const pwd_token = await passportResponse.data;
+
+        const mainApiResponse = await axios.post(`${process.env.REACT_APP_API_HOST}/api/get_jwt`,
+            {'pwd_token': pwd_token.passport_token});
+        const jwt_token = await mainApiResponse.data;
+        console.log(jwt_token);
+
+        localStorage.setItem('token', jwt_token.access_token)
+    }
+
 
     const value = {
-        currentUser
+        currentUser,
+        login,
+        register,
     }
 
     return (
