@@ -12,7 +12,7 @@ function Footer(props) {
         //         </div>
         //     </div>
         // </footer>
-        <footer className="footer footer-default bg-lime">
+        <footer className="footer footer-default bg-lime-400">
             <nav className="main-footer">
                 <div className="container">
                     <div className="grid grid-cols-3 gap-4 row">
