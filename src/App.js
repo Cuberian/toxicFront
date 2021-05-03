@@ -2,7 +2,7 @@ import "./styles/main.css"
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-import Signup from "./components/Auth/Signup";
+import Login from "./components/Auth/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
@@ -19,9 +19,9 @@ const App = (props) => {
                     <Navbar/>
                     <div className="flex  flex-grow">
                         <Switch>
-                            <Route path='/signup' component={Signup}/>
+                            <Route path='/login' component={Login}/>
                             <Route path='/about' component={About}/>
-                            <PrivateRoute path='/main' component={Main} />
+                            <PrivateRoute path='/' component={Main} />
                         </Switch>
                     </div>
                 </div>
@@ -29,8 +29,5 @@ const App = (props) => {
         </AuthProvider>
     );
 }
-
-
-
 
 export default App;
