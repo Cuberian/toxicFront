@@ -1,34 +1,45 @@
 import "./styles/main.css"
-import React from "react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Login from "./components/Auth/Login";
-import PrivateRoute from "./components/PrivateRoute";
-import Main from "./components/Main/Main";
-import Profile from "./components/Profile/Profile";
-import About from "./components/About/About";
+import React, {useContext, useEffect, useState} from "react";
+import {BrowserRouter} from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AuthProvider from "./contexts/AuthContext";
+import {check} from "./http/userAPI";
+import { observer} from "mobx-react-lite";
+import AppRouter from "./components/AppRouter";
+import { Context } from "./index";
 
 
-const App = (props) => {
+const App = observer(() => {
+
+    const {user} = useContext(Context)
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        check().then(data => {
+            if(data) {
+                user.setUser(data)
+                user.setIsAuth(true)
+            }
+        }).finally(() => {setLoading(false)})
+    }, [])
+
     return (
-        <AuthProvider>
-            <Router>
+        <>
+        {!loading &&
+            <BrowserRouter>
                 <div className="min-h-screen w-full flex flex-col">
                     <Navbar/>
-                    <div className="flex  flex-grow">
-                        <Switch>
-                            <Route path='/login' component={Login}/>
-                            <Route path='/about' component={About}/>
-                            <PrivateRoute path='/' component={Main} />
-                        </Switch>
+                    <div className="flex flex-grow">
+                        <AppRouter/>
                     </div>
                     <Footer/>
                 </div>
-            </Router>
-        </AuthProvider>
+            </BrowserRouter>
+        }
+        </>
     );
-};
+});
 
 export default App;

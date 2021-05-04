@@ -1,6 +1,7 @@
 import React from 'react';
+import {observer} from "mobx-react-lite";
 
-function Main(props) {
+const Main = observer((props) => {
     return (
         <div className="w-full">
             <div className="bg-gray-100 w-full flex justify-center">
@@ -83,6 +84,6 @@ function Main(props) {
             </div>
         </div>
     );
-}
+});
 
 export default Main;

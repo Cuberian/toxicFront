@@ -1,15 +1,19 @@
-import React, {useContext} from "react"
-import {Redirect, Route} from "react-router-dom"
-import {useAuth} from "../contexts/AuthContext";
+import React, {useContext} from 'react';
+import {Redirect, Route} from 'react-router-dom'
+import {Context} from "../index";
+import {observer} from "mobx-react-lite";
 
-export default function PrivateRoute({ component: Component, ...rest}) {
-    const { user } = useAuth();
+const PrivateRoute = observer(({component: Component, ...rest}) => {
+
+    const { user } = useContext(Context)
+
     return (
         <Route
             {...rest}
             render={ props => {
-                return (user && user.isAuth) ? <Component{...props}/> : <Redirect to="/login"/>
-            }}
-        />
-    )
-}
+                return user.isAuth ? <Component {...props} /> : <Redirect to='/login'/>
+            }}/>
+    );
+})
+
+export default PrivateRoute;

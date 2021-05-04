@@ -1,12 +1,12 @@
 import React, {useContext, useRef, useState} from "react";
 import { useHistory } from "react-router-dom";
-import {login, registration} from "../../http/userAPI";
-import {observer} from "mobx-react-lite";
-import {useAuth} from "../../contexts/AuthContext";
+import { login } from "../../http/userAPI";
+import { observer } from "mobx-react-lite";
+import {Context} from "../../index";
 
 const Login = observer((props) => {
 
-    const { user } = useAuth()
+    const {user} = useContext(Context)
     const history = useHistory();
     const [error, setError] = useState()
 
@@ -22,7 +22,7 @@ const Login = observer((props) => {
 
             user.setUser(response.user)
             user.setIsAuth(true)
-            history.push('/')
+            history.push('/main')
         } catch (e) {
             console.log(e)
             setError('Ошибка авторизации!')

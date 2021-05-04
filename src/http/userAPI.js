@@ -1,4 +1,4 @@
-import {$authHost, $mainHost} from "./index";
+import {$authHost, $authMainHost, $mainHost} from "./index";
 
 export const registration = async (email, password) => {
     const pwd_token = await $authHost.post('api/v1/user/register', {email, password})
@@ -15,3 +15,9 @@ export const login = async (email, password) => {
     localStorage.setItem('token', data.access_token)
     return data
 }
+
+export const check = async () => {
+    const { data } =  await $authMainHost.get('api/check_jwt')
+    return data
+}
+

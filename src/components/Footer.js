@@ -28,7 +28,7 @@ function Footer(props) {
                     </div>
                 </div>
             </nav>
-            <nav class="row-small">
+            <nav className="row-small">
                 <div className="container">
                     <div className="row">
                         <div className="col-start-7">
