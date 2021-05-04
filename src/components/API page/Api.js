@@ -1,9 +1,23 @@
 import React from 'react';
 
 const Api = () => {
+
+    const apiContent = [
+        {section: 'Посты', content: [
+                {
+                    name: '/post/:id',
+                    link: '/post/',
+                    type: 'GET',
+                    description:'Получить пост из VK по id поста',
+                    info: 'id поста может принимать как положительное так и отрицательное значение',
+                    example: '-545341231234'
+                }
+            ]}
+    ]
+
     return (
-        <div className="flex w-full">
-            <div className="flex flex-col left-0 w-1/6 bg-gray-100 h-full shadow-lg">
+        <div className="flex w-full h-full">
+            <div className="flex flex-col w-1/6 bg-gray-100 h-full shadow-lg">
                 <div className="overflow-y-auto overflow-x-hidden flex-grow">
                     <ul className="flex flex-col py-6 space-y-1">
                         <li className="px-5">
@@ -54,9 +68,16 @@ const Api = () => {
                     </ul>
                 </div>
             </div>
-            <div className="h-72 w-5/6 relative flex flex-col items-center justify-between md:items-start py-5 px-8">
+            <div className="w-5/6 flex flex-col items-center space-y-10 md:items-start py-5 px-8">
+                {
+                    apiContent.map((item, index) => {
+                        return (
+
+                        )
+                    })
+                }
                 <div className="flex">
-                    <div className="flex flex-col space-y-3 pr-20">
+                    <div className="flex flex-col space-y-10 pr-20">
                         <div className="flex items-center space-x-6">
                             <div className="text-2xl font-semibold text-lime-400">
                                 /post/:id
@@ -65,11 +86,11 @@ const Api = () => {
                                 GET
                             </div>
                         </div>
-                        <ul className="text-lg font-light hidden md:block">
-                            <li>Получить пост из VK по id поста</li>
-                            <li>id поста может принимать как положительное так и отрицательное значение</li>
-                            <li>Пример: -545341231234</li>
-                        </ul>
+                        <div className="text-md font-light hidden md:block">
+                            <p>Получить пост из VK по id поста</p>
+                            <p>id поста может принимать как положительное так и отрицательное значение</p>
+                            <p>Пример: -545341231234</p>
+                        </div>
                         <div className="flex">
                             <div className="bg-lime-400 text-white p-2 rounded-l-lg">https://toxicity/api/post</div>
                             <input type="text" className="border-lime-400 border-2"/>

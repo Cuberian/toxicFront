@@ -2,6 +2,7 @@ import Profile from "./components/Profile/Profile";
 import Login from "./components/Auth/Login";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
+import Api from "./components/API page/Api";
 
 export const authRoutes = [
     {
@@ -11,6 +12,10 @@ export const authRoutes = [
     {
         path: '/main',
         Component: Main
+    },
+    {
+        path: '/api',
+        Component: Api
     }
 ]
 
