@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom";
 
 function Navbar(props) {
     const [isOpen, setIsOpen] = useState(false)
@@ -16,10 +17,10 @@ function Navbar(props) {
                         </div>
 
                         <div className="lg:flex hidden items-center text-md uppercase space-x-8">
-                            <a href="#" className="hover:text-lime-400">Главная</a>
-                            <a href="http://localhost:3000/api" className="hover:text-lime-400">API</a>
-                            <a href="#" className="hover:text-lime-400">Инфо</a>
-                            <a href="#" className="hover:text-lime-400">Контакты</a>
+                            <Link to="/main" className="hover:text-lime-400">Главная</Link>
+                            <Link to="/api" className="hover:text-lime-400">API</Link>
+                            <Link to="/toxicity" className="hover:text-lime-400">Анализ</Link>
+                            <Link to="/about" className="hover:text-lime-400">Контакты</Link>
                         </div>
                     </div>
                     <div className="lg:flex hidden items-center">

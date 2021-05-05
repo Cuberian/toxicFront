@@ -3,6 +3,7 @@ import Login from "./components/Auth/Login";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
 import Api from "./components/API page/Api";
+import Toxicity from "./components/Toxicity/Toxicity";
 
 export const authRoutes = [
     {
@@ -12,6 +13,10 @@ export const authRoutes = [
     {
         path: '/main',
         Component: Main
+    },
+    {
+        path: '/toxicity',
+        Component: Toxicity
     },
     {
         path: '/api',
