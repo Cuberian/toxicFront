@@ -4,65 +4,84 @@ import {Link} from "react-scroll";
 
 const Api = () => {
 
-    const scrollTo = (el) => {
-        el.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        })
-    }
-
     const apiContent = [
+        {section: 'Группы', sectionKey:'groups', content: [
+                {
+                    name: '/groups',
+                    link: 'api/toxicity/groups',
+                    type: 'get',
+                    description:'Получить все проанализированные группы из вк',
+                },
+                {
+                    name: '/groups/:id',
+                    link: 'api/toxicity/groups',
+                    type: 'get',
+                    description:'Получить группу из VK по id группы',
+                    info: 'id группы может принимать как положительное так и отрицательное значение',
+                    example: '-545341231234',
+                    inputFields: {
+                        id: {type: 'number', validateRules: null}
+                    }
+                }
+            ]
+        },
+        {section: 'Пользователи', sectionKey:'users', content: [
+                {
+                    name: '/users_vk',
+                    link: 'api/toxicity/users_vk',
+                    type: 'get',
+                    description:'Получить всех проанализированных пользователей из вк',
+                },
+                {
+                    name: '/users_vk/:id',
+                    link: 'api/toxicity/users_vk',
+                    type: 'get',
+                    description:'Получить пользователя из VK по id пользователя',
+                    info: 'id пользователя может принимать как положительное так и отрицательное значение',
+                    example: '-545341231234',
+                    inputFields: {
+                        id: {type: 'number', validateRules: null}
+                    }
+                }
+            ]
+        },
         {section: 'Посты', sectionKey:'posts', content: [
                 {
-                    name: '/post/:id',
-                    link: 'post/',
-                    type: 'GET',
-                    description:'Получить пост из VK по id поста',
-                    info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
+                    name: '/post',
+                    link: 'api/toxicity/posts',
+                    type: 'get',
+                    description:'Получить получить все проанализированные посты из вк',
                 },
                 {
                     name: '/post/:id',
-                    link: 'post/',
-                    type: 'GET',
+                    link: 'api/toxicity/posts',
+                    type: 'get',
                     description:'Получить пост из VK по id поста',
                     info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
-                },
-                {
-                    name: '/post/:id',
-                    link: 'post/',
-                    type: 'GET',
-                    description:'Получить пост из VK по id поста',
-                    info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
+                    example: '-545341231234',
+                    inputFields: {
+                        id: {type: 'number', validateRules: null}
+                    }
                 }
             ]
         },
         {section: 'Комментарии', sectionKey:'comments', content: [
                 {
-                    name: '/comment/:id',
-                    link: 'post/',
-                    type: 'GET',
-                    description:'Получить пост из VK по id поста',
-                    info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
+                    name: '/comments',
+                    link: 'api/toxicity/comments',
+                    type: 'get',
+                    description:'Получить все проанализированные комментарии из вк',
                 },
                 {
-                    name: '/comment/:id',
-                    link: 'post/',
-                    type: 'GET',
-                    description:'Получить пост из VK по id поста',
-                    info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
-                },
-                {
-                    name: '/comment/:id',
-                    link: 'post/',
-                    type: 'GET',
-                    description:'Получить пост из VK по id поста',
-                    info: 'id поста может принимать как положительное так и отрицательное значение',
-                    example: '-545341231234'
+                    name: '/comments/:id',
+                    link: 'api/toxicity/comments',
+                    type: 'get',
+                    description:'Получить комментарий из VK по id коммнтарияе',
+                    info: 'id комментария может принимать как положительное так и отрицательное значение',
+                    example: '-545341231234',
+                    inputFields: {
+                        id: {type: 'number', validateRules: null}
+                    }
                 }
             ]
         }
@@ -107,7 +126,7 @@ const Api = () => {
                 {
                     apiContent.map((item, index) => {
                         return (
-                            <div className="w-full">
+                            <div key={`section_${item.section}`} className="w-full">
                                 <div className="bg-lime-400 text-2xl uppercase py-4 px-4 text-white">
                                     {item.section}
                                 </div>

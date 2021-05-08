@@ -21,6 +21,7 @@ function Navbar(props) {
                             <Link to="/api" className="hover:text-lime-400">API</Link>
                             <Link to="/toxicity" className="hover:text-lime-400">Анализ</Link>
                             <Link to="/about" className="hover:text-lime-400">Контакты</Link>
+                            <Link to="/analysis/request" className="hover:text-lime-400">Запрос на заявку</Link>
                         </div>
                     </div>
                     <div className="lg:flex hidden items-center">
@@ -38,12 +39,12 @@ function Navbar(props) {
                 </div>
             </div>
             { isOpen &&
-                <div className="lg:hidden uppercase flex flex-col">
-                    <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Главная</a>
-                    <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">API</a>
-                    <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Инфо</a>
-                    <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Контакты</a>
-                </div>
+            <div className="lg:hidden uppercase flex flex-col">
+                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Главная</a>
+                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">API</a>
+                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Инфо</a>
+                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Контакты</a>
+            </div>
             }
         </nav>
     );

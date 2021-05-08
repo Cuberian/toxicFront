@@ -5,6 +5,7 @@ import Main from "./components/Main/Main";
 import About from "./components/About/About";
 import Api from "./components/API page/Api";
 import Toxicity from "./components/Toxicity/Toxicity";
+import AnalysisRequestForm from "./components/AnalysisRequestForm/AnalysisRequestForm";
 
 export const authRoutes = [
     {
@@ -22,6 +23,10 @@ export const authRoutes = [
     {
         path: '/api',
         Component: Api
+    },
+    {
+        path: '/analysis/request',
+        Component: AnalysisRequestForm
     }
 ];
 
