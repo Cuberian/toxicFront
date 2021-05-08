@@ -1,4 +1,5 @@
 import Profile from "./components/Profile/Profile";
+import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
@@ -22,9 +23,14 @@ export const authRoutes = [
         path: '/api',
         Component: Api
     }
-]
+];
 
 export const publicRoutes = [
+
+    {
+        path: '/register',
+        Component: Register
+    },
     {
         path: '/login',
         Component: Login
@@ -33,4 +39,4 @@ export const publicRoutes = [
         path: '/about',
         Component: About
     }
-]
+];

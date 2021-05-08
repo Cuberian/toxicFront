@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/error-message": "^2.0.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
@@ -51,7 +52,8 @@
   "devDependencies": {
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
-    "postcss": "^8.2.9",
-    "tailwindcss": "^2.1.1"
+    "postcss": "^8.2.13",
+    "react-hook-form": "^7.4.0",
+    "tailwindcss": "^2.1.2"
   }
 }
