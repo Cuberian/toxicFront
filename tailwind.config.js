@@ -32,6 +32,12 @@ module.exports = {
         600: "#86c449"
       }
     },
+    aspectRatio: {
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+    },
     spacing: {
       px: '1px',
       0: '0px',
@@ -545,6 +551,10 @@ module.exports = {
     },
     minWidth: {
       0: '0px',
+      '1/4': '25%',
+      '1/3': '33.333333%',
+      '1/2': '50%',
+      '3/4': '75%',
       full: '100%',
       min: 'min-content',
       max: 'max-content',
@@ -823,6 +833,7 @@ module.exports = {
     'disabled',
   ],
   variants: {
+    aspectRatio: ['responsive', 'hover'],
     accessibility: ['responsive', 'focus-within', 'focus'],
     alignContent: ['responsive'],
     alignItems: ['responsive'],
