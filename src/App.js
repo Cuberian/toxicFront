@@ -31,7 +31,7 @@ const App = observer(() => {
             <BrowserRouter>
                 <div className="min-h-screen w-full flex flex-col">
                     <Navbar/>
-                        <div className="flex flex-grow">
+                        <div className="flex-grow flex">
                             <AppRouter/>
                         </div>
                     <Footer/>

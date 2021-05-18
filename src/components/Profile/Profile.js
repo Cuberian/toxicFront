@@ -3,12 +3,44 @@ import {Context} from "../../index";
 import AnalysisRequestCard from "./AnalysisRequestCard";
 import {$authMainHost} from "../../http";
 import {useHistory} from "react-router-dom";
+import { Disclosure } from '@headlessui/react'
+import ReactPaginate from "react-paginate";
+import ResultDialog from "../ResultDialog";
+import { Transition } from '@headlessui/react';
+import UserCard from "../Toxicity/UserCard";
+import GroupCard from "../Toxicity/GroupCard";
+import PostCard from "../Toxicity/PostCard";
 
 const Profile = () => {
+
+    const reqHelper = {
+        'user': 'users_vk',
+        'group': 'groups',
+        'post': 'posts',
+    }
+
     const { user } = useContext(Context)
 
     const [userRequests, setUserRequests] = useState([]);
+    const [checkResults, setCheckResults] = useState([])
     const filterAnalysisCardsInput = useRef();
+
+    const [pageNumber, setPageNumber] = useState(0)
+
+    const elementsPerPage = 7
+    const elementsVisited = pageNumber * elementsPerPage
+    const pageCount = Math.ceil(userRequests.length / elementsPerPage)
+
+    let [isOpen, setIsOpen] = useState(false)
+
+
+    function closeModal() {
+        setIsOpen(false)
+    }
+
+    function openModal(id) {
+        setIsOpen(true)
+    }
 
     useEffect(() => {
         getUserAnalysisRequests(user.user.id).then(data => {
@@ -46,76 +78,187 @@ const Profile = () => {
 
     async function getUserAnalysisRequests(userId) {
         const {data} = await $authMainHost.get('api/toxicity/analysis-requests/'+ userId)
-        console.log(data)
-        return data
+        console.log(data.analysis_request_objects)
+        let result = data.map(item => {
+            item.objects = Object.values(item.analysis_request_objects)
+            delete item.analysis_request_objects
+            return item
+        })
+        console.log(result)
+        return result
     }
 
     return (
-        <div className="flex container mx-auto">
+        <>
+        <ResultDialog isOpen={isOpen} closeModal={closeModal}/>
+        <div className="flex container mx-auto max-h-5/6">
            <div className="min-w-1/3 max-w-1/2 p-5">
-               <div className="bg-lime-400 p-5 rounded-md">
+               <div className="h-full border border-greenspace-400 py-5 rounded-md shadow-md">
                     <div className="p-5">
-                        <img src={user.user.avatar} className="object-cover mx-auto rounded-md" alt=""/>
+                        <img src={user.user.avatar} className="object-cover mx-auto rounded-md h-52 w-52" alt=""/>
                     </div>
-                   <hr/>
-                   <div className="flex flex-col space-y-3 text-white py-5">
+                   <div className="flex flex-col space-y-3 bg-greenspace-400 text-gray-700 p-5">
                        <div>
-                           <label>Имя</label>
-                           <p className="font-semibold">{user.user.username}</p>
+                           <label className="text-lg">Имя</label>
+                           <p className="text-xl font-semibold">{user.user.username}</p>
                        </div>
                        <div>
-                           <label>Email</label>
-                           <p className="font-semibold">{user.user.email}</p>
+                           <label className="text-lg">Email</label>
+                           <p className="text-xl font-semibold">{user.user.email}</p>
                        </div>
                        <div>
-                           <label>Дата регистрации</label>
-                           <p className="font-semibold">{(new Date(user.user.created_at)).toLocaleDateString()}</p>
+                           <label className="text-lg">Дата регистрации</label>
+                           <p className="text-xl font-semibold">{(new Date(user.user.created_at)).toLocaleDateString()}</p>
                        </div>
+                   </div>
+                   <div className="flex flex-col space-y-3 py-5 text-gray-700">
+                        <button className="w-full px-2 py-3 bg-gray-100 hover:bg-greenspace-400 uppercase">
+                            запросы
+                        </button>
+                       <button className="w-full px-2 py-3 bg-gray-100 hover:bg-greenspace-400 uppercase ">
+                           Закрепленное
+                       </button>
                    </div>
                </div>
            </div>
-            <div className="flex-grow flex flex-col p-5 space-y-4">
-                <div className="bg-lime-400 p-5 rounded-md text-white">
-                    <p className="uppercase pb-5">Запросы</p>
-                    <hr/>
-                    <div className="py-5">
-                        <div className="flex space-x-4">
-                            <input
-                                className="w-full px-2 py-2 rounded-md text-black"
-                                ref={filterAnalysisCardsInput}
-                                onChange={() => filterAnalysisCards()}
-                                type="text"/>
-                            <button
-                                className="px-2 py-2 bg-blue-300 rounded-md"
-                                onClick={() => clearInput(filterAnalysisCardsInput, filterAnalysisCards)}>Сбросить</button>
-                        </div>
-                        <div className="grid md:grid-cols-3 gap-4 grid-cols-1 py-4">
-                            {
-                                userRequests.length > 0 && userRequests.map((item, index) => {
-                                    return <AnalysisRequestCard
-                                        key={`analysis_rwq_${index}`}
-                                        className="bg-white hover:shadow-md rounded-md"
-                                        analysisReq={item}/>
-                                })
-                            }
-                        </div>
+            <div className="w-full p-5 space-y-4">
+                <div className="flex flex-col h-full w-full rounded-md shadow-md space-y-4">
+                    <div className="w-full text-xl font-bold text-center rounded-t-md bg-greenspace-400 py-3 uppercase text-gray-700">
+                        запросы
                     </div>
-                </div>
-                <div className="bg-lime-400 p-5 rounded-md text-white">
-                    <p className="uppercase pb-5">Закрепленное</p>
-                    <hr/>
-                    <div className="py-5">
-                        <div className="flex space-x-4">
-                            <input className="w-full px-2 py-2 rounded-md text-black" type="text"/>
-                            <button className="px-2 py-2 bg-blue-300 rounded-md">Сбросить</button>
-                        </div>
-                        <div>
-
-                        </div>
+                    <div className="flex w-full justify-center space-x-4">
+                        <button className="px-2 min-w-1/4 py-2 border border-greenspace-400 bg-greenspace-400 rounded-md uppercase">
+                            все
+                        </button>
+                        <button className="px-2 min-w-1/4 py-2 border border-greenspace-400 rounded-md uppercase">
+                            закрепленное
+                        </button>
                     </div>
+                    <div className="flex space-x-4 px-5">
+                        <input
+                            className="w-full px-2 py-2 rounded-md text-black shadow-md"
+                            ref={filterAnalysisCardsInput}
+                            onChange={() => filterAnalysisCards()}
+                            type="text"/>
+                        <button
+                            className="px-2 py-2 rounded-md bg-greenspace-400 hover:bg-greenspace-600 shadow-md"
+                            onClick={() => clearInput(filterAnalysisCardsInput, filterAnalysisCards)}>Сбросить</button>
+                    </div>
+                    <hr/>
+                    <div className="flex flex-grow h-5/6 overflow-hidden">
+                    <div
+                        className="w-full h-full px-5 pb-5 space-y-5 px-4 text-gray-700 overflow-y-scroll scrollbar-thumb-greenspace-400 scrollbar-thin">
+                        {userRequests.length > 0 && userRequests
+                            .slice(elementsVisited, elementsVisited + elementsPerPage)
+                            .map((item, index) => {
+                                return <Disclosure as="div" key={'request_'+index}>
+                                    {({ open }) => (
+                                        <>
+                                            <Disclosure.Button
+                                                className={`w-full ${open ? 'bg-greenspace-400 rounded-t-md': 'rounded-md'} 
+                                    justify-between flex shadow-sm border border-greenspace-400 
+                                    hover:shadow-md py-4 px-2 items-center focus:outline-none`}>
+                                                <div className="">
+                                                    <p className="text-sm text-left">#{item.id}</p>
+                                                    <p className="text-xl font-medium">{item.name}</p>
+                                                </div>
+                                                <div>
+                                                    <div className="h-10 w-10 rounded-full bg-lime-400"/>
+                                                </div>
+                                            </Disclosure.Button>
+                                            <Transition
+                                                show={open}
+                                                enter="transition duration-100 ease-out"
+                                                enterFrom="transform scale-95 opacity-0"
+                                                enterTo="transform scale-100 opacity-100"
+                                                leave="transition duration-75 ease-out"
+                                                leaveFrom="transform scale-100 opacity-100"
+                                                leaveTo="transform scale-95 opacity-0"
+                                            >
+                                                <Disclosure.Panel className="">
+                                                    <div className="border border-greenspace-400 p-2 rounded-b-md space-y-4">
+                                                        <p>Причина: {item.reason}</p>
+                                                        <div className="grid grid-cols-2 gap-4">
+                                                        {
+                                                            item.objects.map(obj => {
+                                                                switch (obj.type)
+                                                                {
+                                                                    case 'user':
+                                                                        return <UserCard user={obj.object_value} openInfo={openModal}/>
+                                                                    case 'group':
+                                                                        return <GroupCard group={obj.object_value} openInfo={openModal}/>
+                                                                    case 'post':
+                                                                        return <PostCard post={obj.object_value} openInfo={openModal}/>
+                                                                }
+                                                            })
+                                                        }
+                                                        </div>
+                                                    </div>
+                                                </Disclosure.Panel>
+                                            </Transition>
+                                        </>
+                                    )}
+                                </Disclosure>
+                            })
+                        }
+                    </div>
+                    </div>
+                    <ReactPaginate
+                        previousLabel={'Previous'}
+                        nextLabel={'Next'}
+                        pageCount={pageCount}
+                        onPageChange={({selected}) => setPageNumber(selected)}
+                        containerClassName="flex space-x-5 items-center w-full justify-center py-10 block bottom-0"
+                        previousLinkClassName="px-3 py-2 bg-greenspace-400 text-white hover:bg-greenspace-600"
+                        nextLinkClassName="px-3 py-2 bg-greenspace-400 text-white hover:bg-greenspace-400"
+                        pageLinkClassName="px-3 py-2 border border-greenspace-400 hover:bg-greenspace-600 hover:text-white"
+                        activeLinkClassName="bg-greenspace-600 text-white"
+                    />
                 </div>
             </div>
+            {/*<div className="flex-grow flex flex-col p-5 space-y-4">*/}
+            {/*    <div className="bg-lime-400 p-5 rounded-md text-white">*/}
+            {/*        <p className="uppercase pb-5">Запросы</p>*/}
+            {/*        <hr/>*/}
+            {/*        <div className="py-5">*/}
+            {/*            <div className="flex space-x-4">*/}
+            {/*                <input*/}
+            {/*                    className="w-full px-2 py-2 rounded-md text-black"*/}
+            {/*                    ref={filterAnalysisCardsInput}*/}
+            {/*                    onChange={() => filterAnalysisCards()}*/}
+            {/*                    type="text"/>*/}
+            {/*                <button*/}
+            {/*                    className="px-2 py-2 bg-blue-300 rounded-md"*/}
+            {/*                    onClick={() => clearInput(filterAnalysisCardsInput, filterAnalysisCards)}>Сбросить</button>*/}
+            {/*            </div>*/}
+            {/*            <div className="grid md:grid-cols-3 gap-4 grid-cols-1 py-4">*/}
+            {/*                {*/}
+            {/*                    userRequests.length > 0 && userRequests.map((item, index) => {*/}
+            {/*                        return <AnalysisRequestCard*/}
+            {/*                            key={`analysis_rwq_${index}`}*/}
+            {/*                            className="bg-white hover:shadow-md rounded-md"*/}
+            {/*                            analysisReq={item}/>*/}
+            {/*                    })*/}
+            {/*                }*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div className="bg-lime-400 p-5 rounded-md text-white">*/}
+            {/*        <p className="uppercase pb-5">Закрепленное</p>*/}
+            {/*        <hr/>*/}
+            {/*        <div className="py-5">*/}
+            {/*            <div className="flex space-x-4">*/}
+            {/*                <input className="w-full px-2 py-2 rounded-md text-black" type="text"/>*/}
+            {/*                <button className="px-2 py-2 bg-blue-300 rounded-md">Сбросить</button>*/}
+            {/*            </div>*/}
+            {/*            <div>*/}
+
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
+        </>
     );
 };
 

@@ -30,6 +30,12 @@ module.exports = {
       lime: {
         400: "#9ad350",
         600: "#86c449"
+      },
+      greenspace: {
+        200: '#61d095',
+        400: '#48bf84',
+        600: '#46ab7d',
+        800: '#439775',
       }
     },
     aspectRatio: {
@@ -521,6 +527,10 @@ module.exports = {
     }),
     maxHeight: (theme) => ({
       ...theme('spacing'),
+      '1/4': '25%',
+      '1/3': '33.333333%',
+      '1/2': '50%',
+      '3/4': '75%',
       full: '100%',
       screen: '100vh',
     }),
@@ -833,6 +843,7 @@ module.exports = {
     'disabled',
   ],
   variants: {
+    scrollbar: ['responsive'],
     aspectRatio: ['responsive', 'hover'],
     accessibility: ['responsive', 'focus-within', 'focus'],
     alignContent: ['responsive'],
@@ -977,5 +988,7 @@ module.exports = {
     wordBreak: ['responsive'],
     zIndex: ['responsive', 'focus-within', 'focus'],
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ],
 }
