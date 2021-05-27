@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, {useState, Fragment, useContext} from 'react';
 import {Link} from "react-router-dom";
+import { Menu, Transition } from '@headlessui/react'
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
 
-function Navbar(props) {
+const Navbar =  observer((props) => {
     const [isOpen, setIsOpen] = useState(false)
+
+    const {user} = useContext(Context);
 
     return (
         <nav className="bg-gray-100 w-full">
@@ -17,15 +22,53 @@ function Navbar(props) {
                         </div>
 
                         <div className="lg:flex hidden items-center text-md uppercase space-x-8">
-                            <Link to="/main" className="hover:text-lime-400">Главная</Link>
-                            <Link to="/api" className="hover:text-lime-400">API</Link>
-                            <Link to="/toxicity" className="hover:text-lime-400">Анализ</Link>
-                            <Link to="/about" className="hover:text-lime-400">Контакты</Link>
-                            <Link to="/analysis/request" className="hover:text-lime-400">Запрос на заявку</Link>
+                            <Link to="/main" className="hover:text-greenspace-400">Главная</Link>
+                            <Link to="/api" className="hover:text-greenspace-400">API</Link>
+                            <Link to="/toxicity" className="hover:text-greenspace-400">Анализ</Link>
+                            <Link to="/about" className="hover:text-greenspace-400">Контакты</Link>
+                            <Link to="/analysis/request" className="hover:text-greenspace-400">Запрос на заявку</Link>
                         </div>
                     </div>
                     <div className="lg:flex hidden items-center">
-                        <div className="bg-greenspace-400 w-10 h-10 rounded-3xl"/>
+                        <Menu>
+                            <Menu.Button as="img" src={user.user?.avatar} className="bg-greenspace-400 w-10 h-10 rounded-3xl"/>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute right-0 w-56 mt-36 mr-20 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="px-1 py-1">
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <Link
+                                                    className={`${active && 'bg-greenspace-400'} 
+                                                     group flex rounded-md items-center w-full px-2 py-2 text-lg`}
+                                                    to="/profile"
+                                                >
+                                                    Профиль
+                                                </Link>
+                                            )}
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <Link
+                                                    className={`${active && 'bg-greenspace-400'}  
+                                                    group flex rounded-md items-center w-full px-2 py-2 text-lg`}
+                                                    to="/logout"
+                                                >
+                                                    Выйти
+                                                </Link>
+                                            )}
+                                        </Menu.Item>
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
                     </div>
                     <div className="lg:hidden flex items-center">
                         <button onClick={() => setIsOpen(!isOpen)}>
@@ -38,14 +81,14 @@ function Navbar(props) {
             </div>
             { isOpen &&
             <div className="lg:hidden uppercase flex flex-col">
-                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Главная</a>
-                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">API</a>
-                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Инфо</a>
-                <a href="#" className="hover:bg-lime-400 hover:text-white py-4 px-8">Контакты</a>
+                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Главная</a>
+                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">API</a>
+                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Инфо</a>
+                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Контакты</a>
             </div>
             }
         </nav>
     );
-}
+})
 
 export default Navbar;

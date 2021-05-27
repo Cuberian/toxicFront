@@ -25,9 +25,10 @@ function AnalysisRequestForm() {
     return (
         <div className="flex w-full h-full mb-20">
             {
-               !sendResultNumber && <div className="flex flex-col container mx-auto px-5 py-4 space-y-4">
-                    <p className="mx-auto text-2xl font-bold">Запрос на анализ</p>
-                    <form onSubmit={handleSubmit(submitHandler)}>
+               !sendResultNumber && <div className="container mx-auto px-5 py-4 h-full">
+                   <div className="flex flex-col shadow-md rounded-md p-5 space-y-4 border">
+                        <p className="mx-auto text-2xl font-bold">Запрос на анализ</p>
+                        <form onSubmit={handleSubmit(submitHandler)}>
                         <div className="flex flex-col space-y-2">
                             <label>Название запроса</label>
                             <input className="border rounded-md px-3 py-2" type="text" {...register('reqName')}/>
@@ -90,13 +91,13 @@ function AnalysisRequestForm() {
                             </div>
                             <button
                                 type="button"
-                                className="px-3 py-2 bg-blue-400 text-white rounded-md"
+                                className="px-3 py-2 bg-blue-400 text-white rounded-md w-1/4 mx-auto"
                                 onClick={() => append({objType: "", objId: ""})}>Добавить объект
                             </button>
                         </div>
                         <div className="flex md:flex-row flex-col md:space-x-3 md:space-y-0 space-y-3">
                             <button
-                                className="disabled:opacity-50 px-3 py-2 bg-lime-400 text-white hover:bg-lime-600 rounded-md"
+                                className="disabled:opacity-50 px-3 py-2 bg-greenspace-400 text-white hover:bg-greenspace-600 rounded-md"
                                 disabled={fields.length === 0}>
                                 Отправить заявку
                             </button>
@@ -105,6 +106,7 @@ function AnalysisRequestForm() {
                         </div>
 
                     </form>
+                   </div>
                 </div>
             }
             {

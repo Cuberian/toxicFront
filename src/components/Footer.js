@@ -7,16 +7,16 @@ function Footer(props) {
                 <div className="sm:flex sm:mt-8">
                     <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
                         <div className="flex flex-col">
-                            <span className="font-medium text-white uppercase mb-2">мы в соц сетях</span>
-                            <span className="my-2"><a href="#" className="text-md hover:text-white">свяжитесь с нами</a></span>
+                            <span className="font-medium text-xl text-white uppercase mb-2">мы в соц сетях!</span>
+                            <span className="my-2"><a href="#" className="text-lg hover:text-white">Свяжитесь с нами</a></span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="font-medium text-white uppercase mt-4 md:mt-0 mb-2">как же скучно</span>
-                            <span className="my-2"><a href="#" className="text-md hover:text-white">link 1</a></span>
+                            <span className="font-medium text-xl text-white uppercase mt-4 md:mt-0 mb-2">Есть вопросы?</span>
+                            <span className="my-2"><a href="#" className="text-lg hover:text-white">Обратись в поддержку</a></span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="font-medium text-white uppercase mt-4 md:mt-0 mb-2">Footer header 3</span>
-                            <span className="my-2"><a href="#" className="text-md hover:text-white">link 1</a></span>
+                            <span className="font-medium text-xl text-white uppercase mt-4 md:mt-0 mb-2">FAQ</span>
+                            <span className="my-2"><a href="#" className="text-lg hover:text-white">Перейти</a></span>
                         </div>
                     </div>
                 </div>

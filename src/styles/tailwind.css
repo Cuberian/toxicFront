@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 .btn-green {
-    @apply mx-auto bg-lime-400 hover:bg-lime-600 shadow-md text-white text-lg font-semibold py-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-opacity-75
+    @apply mx-auto bg-greenspace-400 hover:bg-greenspace-600 shadow-md text-white text-lg font-semibold py-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-greenspace-400 focus:ring-opacity-75
 }
 .input-text {
-    @apply p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500
+    @apply p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-greenspace-200
 }

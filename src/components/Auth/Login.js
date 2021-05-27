@@ -19,11 +19,11 @@ const Login = observer((props) => {
     const {user} = useContext(Context);
     const history = useHistory();
     const [error, setError] = useState();
-
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [loading, setLoading] = useState(false);
 
     async function loginHandler(data) {
+        setLoading(true);
+
         try {
             setError('');
             const response = await login(data.email, data.password);
@@ -36,11 +36,13 @@ const Login = observer((props) => {
             console.log(e);
             setError('Ошибка авторизации!')
         }
+
+        setLoading(false);
     }
 
     return (
         <div className="flex justify-center items-center w-full">
-            <div className="rounded-md p-5 lg:border flex flex-col justify-center 2xl:w-1/4 lg:w-1/3 w-full">
+            <div className="rounded-md p-5 lg:border flex flex-col justify-center 2xl:w-1/4 lg:w-1/3 w-full lg:shadow-md">
                 <h3 className="text-center mt-2 text-3xl font-semibold">Вход</h3>
                 <form className="mt-6" onSubmit={handleSubmit(loginHandler)}>
                     <div className="flex flex-col content-center">
@@ -76,10 +78,17 @@ const Login = observer((props) => {
                         />
                     </div>
                     <div className="flex mt-4 mb-4">
-                        { props.loading ? <p>LOADING...</p> :
-                        <button className="btn-green" type="submit">
-                            Войти
-                        </button> }
+                        {
+                            loading ?
+                            <div className="w-full flex space-x-6 justify-center">
+                                <div className="rounded-full w-10 h-10 animate-bounce bg-greenspace-400"/>
+                                <div className="rounded-full w-10 h-10 animate-bounce bg-greenspace-400"/>
+                                <div className="rounded-full w-10 h-10 animate-bounce bg-greenspace-400"/>
+                            </div> :
+                            <button className="btn-green" type="submit">
+                                Войти
+                            </button>
+                        }
                     </div>
                 </form>
             </div>

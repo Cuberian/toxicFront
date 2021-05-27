@@ -10,8 +10,9 @@ import { Transition } from '@headlessui/react';
 import UserCard from "../Toxicity/UserCard";
 import GroupCard from "../Toxicity/GroupCard";
 import PostCard from "../Toxicity/PostCard";
+import {observer} from "mobx-react-lite";
 
-const Profile = () => {
+const Profile = observer(() => {
 
     const reqHelper = {
         'user': 'users_vk',
@@ -19,8 +20,20 @@ const Profile = () => {
         'post': 'posts',
     }
 
+    const leftMenu = [
+        {
+            name: 'запросы',
+            label: 'requests'
+        },
+        {
+            name: 'закрепленное',
+            label: 'saved'
+        },
+    ]
+
     const { user } = useContext(Context)
 
+    const [currentSection, setCurrentSection] = useState('requests')
     const [userRequests, setUserRequests] = useState([]);
     const [checkResults, setCheckResults] = useState([])
     const filterAnalysisCardsInput = useRef();
@@ -95,7 +108,7 @@ const Profile = () => {
            <div className="min-w-1/3 max-w-1/2 p-5">
                <div className="h-full border border-greenspace-400 py-5 rounded-md shadow-md">
                     <div className="p-5">
-                        <img src={user.user.avatar} className="object-cover mx-auto rounded-md h-52 w-52" alt=""/>
+                        <img src={user.user?.avatar} className="object-cover mx-auto rounded-md h-52 w-52" alt=""/>
                     </div>
                    <div className="flex flex-col space-y-3 bg-greenspace-400 text-gray-700 p-5">
                        <div>
@@ -112,12 +125,18 @@ const Profile = () => {
                        </div>
                    </div>
                    <div className="flex flex-col space-y-3 py-5 text-gray-700">
-                        <button className="w-full px-2 py-3 bg-gray-100 hover:bg-greenspace-400 uppercase">
-                            запросы
-                        </button>
-                       <button className="w-full px-2 py-3 bg-gray-100 hover:bg-greenspace-400 uppercase ">
-                           Закрепленное
-                       </button>
+                       {
+                           leftMenu.map((item, index) => {
+                               return <button
+                                   key={'menu_item_'+index}
+                                   className={`w-full px-2 py-3 
+                                   ${currentSection === item.label ? 'bg-greenspace-400' : 'bg-gray-100'} 
+                                   hover:bg-greenspace-400 uppercase focus:outline-none`}
+                                   onClick={() => setCurrentSection(item.label)}>
+                                   {item.name}
+                               </button>
+                           })
+                       }
                    </div>
                </div>
            </div>
@@ -186,7 +205,7 @@ const Profile = () => {
                                                                     case 'user':
                                                                         return <UserCard user={obj.object_value} openInfo={openModal}/>
                                                                     case 'group':
-                                                                        return <GroupCard group={obj.object_value} openInfo={openModal}/>
+                                                                        return <GroupCard group={obj.object_value} openInfo={openModal} className="flex"/>
                                                                     case 'post':
                                                                         return <PostCard post={obj.object_value} openInfo={openModal}/>
                                                                 }
@@ -216,50 +235,9 @@ const Profile = () => {
                     />
                 </div>
             </div>
-            {/*<div className="flex-grow flex flex-col p-5 space-y-4">*/}
-            {/*    <div className="bg-lime-400 p-5 rounded-md text-white">*/}
-            {/*        <p className="uppercase pb-5">Запросы</p>*/}
-            {/*        <hr/>*/}
-            {/*        <div className="py-5">*/}
-            {/*            <div className="flex space-x-4">*/}
-            {/*                <input*/}
-            {/*                    className="w-full px-2 py-2 rounded-md text-black"*/}
-            {/*                    ref={filterAnalysisCardsInput}*/}
-            {/*                    onChange={() => filterAnalysisCards()}*/}
-            {/*                    type="text"/>*/}
-            {/*                <button*/}
-            {/*                    className="px-2 py-2 bg-blue-300 rounded-md"*/}
-            {/*                    onClick={() => clearInput(filterAnalysisCardsInput, filterAnalysisCards)}>Сбросить</button>*/}
-            {/*            </div>*/}
-            {/*            <div className="grid md:grid-cols-3 gap-4 grid-cols-1 py-4">*/}
-            {/*                {*/}
-            {/*                    userRequests.length > 0 && userRequests.map((item, index) => {*/}
-            {/*                        return <AnalysisRequestCard*/}
-            {/*                            key={`analysis_rwq_${index}`}*/}
-            {/*                            className="bg-white hover:shadow-md rounded-md"*/}
-            {/*                            analysisReq={item}/>*/}
-            {/*                    })*/}
-            {/*                }*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="bg-lime-400 p-5 rounded-md text-white">*/}
-            {/*        <p className="uppercase pb-5">Закрепленное</p>*/}
-            {/*        <hr/>*/}
-            {/*        <div className="py-5">*/}
-            {/*            <div className="flex space-x-4">*/}
-            {/*                <input className="w-full px-2 py-2 rounded-md text-black" type="text"/>*/}
-            {/*                <button className="px-2 py-2 bg-blue-300 rounded-md">Сбросить</button>*/}
-            {/*            </div>*/}
-            {/*            <div>*/}
-
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </div>
         </>
     );
-};
+});
 
 export default Profile;
