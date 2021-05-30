@@ -11,6 +11,7 @@ import UserCard from "../Toxicity/UserCard";
 import GroupCard from "../Toxicity/GroupCard";
 import PostCard from "../Toxicity/PostCard";
 import {observer} from "mobx-react-lite";
+import ErrorRequestResultLabel from "../Toxicity/ErrorRequestResultLabel";
 
 const Profile = observer(() => {
 
@@ -35,7 +36,6 @@ const Profile = observer(() => {
 
     const [currentSection, setCurrentSection] = useState('requests')
     const [userRequests, setUserRequests] = useState([]);
-    const [checkResults, setCheckResults] = useState([])
     const filterAnalysisCardsInput = useRef();
 
     const [pageNumber, setPageNumber] = useState(0)
@@ -108,7 +108,7 @@ const Profile = observer(() => {
            <div className="min-w-1/3 max-w-1/2 p-5">
                <div className="h-full border border-greenspace-400 py-5 rounded-md shadow-md">
                     <div className="p-5">
-                        <img src={user.user?.avatar} className="object-cover mx-auto rounded-md h-52 w-52" alt=""/>
+                        <img src={user.user.avatar} className="object-cover mx-auto rounded-md h-52 w-52" alt=""/>
                     </div>
                    <div className="flex flex-col space-y-3 bg-greenspace-400 text-gray-700 p-5">
                        <div>
@@ -203,9 +203,13 @@ const Profile = observer(() => {
                                                                 switch (obj.type)
                                                                 {
                                                                     case 'user':
-                                                                        return <UserCard user={obj.object_value} openInfo={openModal}/>
+                                                                        if (obj.analysis_type === "success")
+                                                                            return <UserCard user={obj.object_value} openInfo={openModal}/>
+                                                                        else
+                                                                            return <ErrorRequestResultLabel userReqResult={obj} />
                                                                     case 'group':
-                                                                        return <GroupCard group={obj.object_value} openInfo={openModal} className="flex"/>
+                                                                        if (obj.analysis_type === "success")
+                                                                            return <GroupCard group={obj.object_value} openInfo={openModal} className="flex"/>
                                                                     case 'post':
                                                                         return <PostCard post={obj.object_value} openInfo={openModal}/>
                                                                 }
@@ -223,8 +227,8 @@ const Profile = observer(() => {
                     </div>
                     </div>
                     <ReactPaginate
-                        previousLabel={'Previous'}
-                        nextLabel={'Next'}
+                        previousLabel={'Пред'}
+                        nextLabel={'След'}
                         pageCount={pageCount}
                         onPageChange={({selected}) => setPageNumber(selected)}
                         containerClassName="flex space-x-5 items-center w-full justify-center py-10 block bottom-0"

@@ -21,33 +21,29 @@ const Register = observer((props) => {
     const history = useHistory();
     const [error, setError] = useState();
 
-    const emailRef = useRef();
-    const usernameRef = useRef();
-    const passwordRef = useRef();
 
-    // async function handleSubmit(e) {
-    //     e.preventDefault();
-    //     try {
-    //         setError('');
-    //         const response = await registration(emailRef.current.value, usernameRef.current.value, passwordRef.current.value);
-    //         console.log(response);
-    //
-    //         user.setUser(response.user);
-    //         user.setIsAuth(true);
-    //         history.push('/main')
-    //     } catch (e) {
-    //         console.log(e);
-    //         setError('Ошибка при регистрации!')
-    //     }
-    // }
+    async function registerUser(data) {
+        try {
+            setError('');
+            const response = await registration(data.email, data.username, data.password);
+            console.log(response);
 
-    const onSubmit = (data) => console.log(data);
+            user.setUser(response.user);
+            user.setIsAuth(true);
+
+            history.push('/main')
+        } catch (e) {
+            console.log(e);
+            setError('Ошибка при регистрации!')
+        }
+    }
+
 
     return (
         <div className="flex justify-center items-center w-full">
             <div className="rounded-md p-5 lg:border flex flex-col justify-center 2xl:w-1/4 lg:w-1/3 w-full">
                 <h3 className="text-center mt-2 text-3xl font-semibold">Регистрация</h3>
-                <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
+                <form className="mt-6" onSubmit={handleSubmit(registerUser)}>
                     <div className="flex flex-col content-center">
                         <label className="font-semibold mb-2 text-lg">Почта</label>
                         <input className={`input-text ${errors.email ? 'border-red-500' : ''}`} type="text" {...register("email", {required: "Это поле обязательно.",

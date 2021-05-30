@@ -18,11 +18,15 @@ const App = observer(() => {
 
     useEffect(() => {
         check().then(data => {
-            if(data) {
-                user.setUser(data)
+            if (data && data.user) {
+                user.setUser(data.user)
                 user.setIsAuth(true)
+            } else {
+                user.setIsAuth(false)
             }
-        }).finally(() => {setLoading(false)})
+        }).finally(() => {
+            setLoading(false)
+        })
     }, [])
 
     return (
