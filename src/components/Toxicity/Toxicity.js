@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getAllUsersVK} from "../../http/usersVkAPI";
 import {getAllPosts} from "../../http/postsAPI";
-import {getAllComments} from "../../http/commentsAPI";
 import {getAllGroups} from "../../http/groupsAPI";
-import UserCard from "./UserCard";
+import UserCard from "../Cards/UserCard";
 import ReactPaginate from 'react-paginate';
-import CommentCard from "./CommentCard";
-import PostCard from "./PostCard";
-import GroupCard from "./GroupCard";
+import PostCard from "../Cards/PostCard";
+import GroupCard from "../Cards/GroupCard";
 
 function Toxicity(props) {
 
@@ -24,8 +22,7 @@ function Toxicity(props) {
     const types = [
         {type: 'users', name: 'Пользователи'},
         {type: 'groups', name: 'Группы'},
-        {type: 'posts', name: 'Посты'},
-        {type: 'comments', name: 'Комментарии'}
+        {type: 'posts', name: 'Посты'}
     ]
 
     useEffect(() => {
@@ -46,29 +43,16 @@ function Toxicity(props) {
                 case 'users':
                     getAllUsersVK().then(data => {
                         setSelectedTypeElements(data)
-                        console.log(type)
-                        console.log(data)
                     })
                     break
                 case 'posts':
                     getAllPosts().then(data => {
                         setSelectedTypeElements(data)
-                        console.log(type)
-                        console.log(data)
-                    })
-                    break
-                case 'comments':
-                    getAllComments().then(data => {
-                        setSelectedTypeElements(data)
-                        console.log(type)
-                        console.log(data)
                     })
                     break
                 case 'groups':
                     getAllGroups().then(data => {
                         setSelectedTypeElements(data)
-                        console.log(type)
-                        console.log(data)
                     })
                     break
             }
@@ -77,7 +61,7 @@ function Toxicity(props) {
 
     return (
         <main className="w-full flex flex-col">
-            <div className="w-1/2 mx-auto flex justify-center py-5">
+            <div className="w-1/2 mx-auto flex justify-center py-5 space-x-4">
                 {
                   types.map((item, index) => {
                       return (
@@ -85,8 +69,8 @@ function Toxicity(props) {
                               key={'nav_button_'+index}
                               className={`px-10 py-2 rounded-md
                               ${ item.type === selectedType ? 
-                                  'bg-lime-600 text-white' :
-                                  'hover:bg-lime-600 hover:text-white' }`}
+                                  'bg-greenspace-400 text-white' :
+                                  'hover:bg-greenspace-400 hover:text-white' }`}
                               onClick={() => changeTypeHandler(item.type)}>
                               {item.name}
                           </button>
@@ -94,7 +78,7 @@ function Toxicity(props) {
                   })
                 }
             </div>
-            <div className="w-full flex flex-wrap justify-around px-5">
+            <div className="w-full grid grid-cols-3 gap-4 px-5 auto-rows-max">
                 {
                     selectedTypeElements.length > 0 && selectedTypeElements
                         .slice(elementsVisited, elementsVisited + elementsPerPage)
@@ -102,8 +86,6 @@ function Toxicity(props) {
                         switch (selectedType) {
                             case 'users':
                                 return (<UserCard key={'users_'+index} user={item}/>)
-                            case 'comments':
-                                return (<CommentCard key={'comments_'+index} comment={item} />)
                             case 'posts':
                                 return (<PostCard key={'posts_'+index} post={item} />)
                             case 'groups':
@@ -115,15 +97,15 @@ function Toxicity(props) {
             {
                 selectedTypeElements.length > 0 &&
                 <ReactPaginate
-                    previousLabel={'Previous'}
-                    nextLabel={'Next'}
+                    previousLabel={'Пред'}
+                    nextLabel={'След'}
                     pageCount={pageCount}
                     onPageChange={({selected}) => setPageNumber(selected)}
                     containerClassName="flex space-x-5 items-center w-full justify-center py-10"
-                    previousLinkClassName="px-3 py-2 bg-lime-400 text-white hover:bg-lime-600"
-                    nextLinkClassName="px-3 py-2 bg-lime-400 text-white hover:bg-lime-600"
-                    pageLinkClassName="px-3 py-2 border border-lime-400 hover:bg-lime-600 hover:text-white"
-                    activeLinkClassName="bg-lime-600 text-white"
+                    previousLinkClassName="px-3 py-2 bg-greenspace-400 text-white hover:bg-greenspace-600"
+                    nextLinkClassName="px-3 py-2 bg-greenspace-400 text-white hover:bg-greenspace-600"
+                    pageLinkClassName="px-3 py-2 border border-greenspace-400 hover:bg-greenspace-600 hover:text-white"
+                    activeLinkClassName="bg-greenspace-600 text-white"
                 />
             }
         </main>

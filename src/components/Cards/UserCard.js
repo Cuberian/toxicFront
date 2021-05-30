@@ -3,44 +3,47 @@ import { Dialog, Transition } from '@headlessui/react'
 import {useHistory} from "react-router-dom";
 import {$authMainHost} from "../../http";
 
-function GroupCard({group, className=''}) {
+function UserCard({user, className=''}) {
 
-    const {id, wall_id, name, screen_name, info, is_closed, toxicity, avatar} = group;
+    const {id, wall_id, fullname, is_closed, toxicity, avatar} = user;
     let [isOpen, setIsOpen] = useState(false)
-    const [groupPosts, setGroupPosts] = useState([])
+    const [userPosts, setUserPosts] = useState([])
 
     function closeModal() {
         setIsOpen(false)
     }
 
     function openModal() {
-        setIsOpen(true)
+        getUserPosts().then(r => {
+            setIsOpen(true)
+        })
     }
-    async function getGroupPosts() {
-        const {data:posts} = await $authMainHost.get('api/toxicity/groups/'+id +'/posts')
+    async function getUserPosts() {
+        const {data:posts} = await $authMainHost.get('api/toxicity/users_vk/'+id +'/posts')
 
-        setGroupPosts(posts)
+        setUserPosts(posts)
     }
 
     useEffect(() => {
-        getGroupPosts()
+        getUserPosts()
     }, [])
 
+    const history = useHistory();
     return (
         <>
             <div className={className} onClick={() => openModal(true)}>
-                <div className="border w-full rounded-md shadow-md hover:shadow-lg flex justify-between">
+                <div className="h-full rounded-md shadow-md hover:shadow-lg flex justify-between">
                     <div className="flex items-center space-x-4 px-5 py-3">
                         <div className="h-10 w-10 rounded-md bg-greenspace-400">
                             <img src={avatar} alt="" className="h-10 w-10 rounded-md"/>
                         </div>
                         <div className="flex flex-col">
                             <span className="text-sm">{wall_id}</span>
-                            <p className="text-lg">{name}</p>
+                            <p className="text-lg">{fullname}</p>
                         </div>
                     </div>
-                    <div className="flex bg-greenspace-400 items-center px-5 rounded-r-md">
-                        <span className="text-xl">{Math.round(toxicity * 100)}%</span>
+                    <div className="flex bg-greenspace-400 items-center px-5 rounded-r-md min-w-1/4">
+                        <span className="mx-auto text-xl">{Math.round(toxicity * 100)}%</span>
                     </div>
                 </div>
             </div>
@@ -80,12 +83,12 @@ function GroupCard({group, className=''}) {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="inline-block w-2/5 h-5/6 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                            <div className="inline-block w-2/5 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                 <Dialog.Title
                                     as="h3"
                                     className="text-2xl font-medium leading-6 text-gray-900"
                                 >
-                                    Группа #{id}
+                                    Пользователь #{id}
                                 </Dialog.Title>
                                 <div className="flex space-x-10 mt-4 p-5 rounded-md justify-start">
                                     <div className="flex flex-col space-y-4">
@@ -100,9 +103,9 @@ function GroupCard({group, className=''}) {
                                     </div>
                                     <div className="flex flex-col flex-grow space-y-4 p-4 border bg-greenspace-400 rounded-md shadow-md">
                                         <div>
-                                            <span className="text-lg text-gray-700 font-medium">Полное название группы:</span>
+                                            <span className="text-lg text-gray-700 font-medium">Имя:</span>
                                             <p className="text-xl text-gray-700">
-                                                {name}
+                                                 {fullname}
                                             </p>
                                         </div>
                                         <div>
@@ -112,7 +115,7 @@ function GroupCard({group, className=''}) {
                                             </p>
                                         </div>
                                         <div>
-                                            <span className="text-lg text-gray-700 font-medium">Закрытая группа:</span>
+                                            <span className="text-lg text-gray-700 font-medium">Закрытый профиль:</span>
                                             <p className="text-xl text-gray-700">
                                                 {is_closed ? 'Да' : 'Нет'}
                                             </p>
@@ -121,15 +124,13 @@ function GroupCard({group, className=''}) {
                                 </div>
                                 <hr/>
                                 <p className="text-xl font-medium mt-3">Посты: </p>
-                                <div className="mt-4 overflow-y-scroll h-2/4 scrollbar scrollbar-thumb-greenspace-400">
-                                    <div className="flex flex-col px-5 space-y-4">
-                                        {groupPosts.length && groupPosts.map(item => {
-                                            return <div className="p-4 border shadow-md rounded-md">
-                                                <p>{ item.text }</p>
-                                                <p>{Math.round(item.toxicity * 100)}%</p>
-                                            </div>
-                                        })}
-                                    </div>
+                                <div className="flex flex-col space-y-4 mt-4">
+                                    {userPosts.length && userPosts.map(item => {
+                                        return <div className="p-4 border shadow-md rounded-md">
+                                            <p>{ item.text }</p>
+                                            <p>{Math.round(item.toxicity * 100)}%</p>
+                                        </div>
+                                    })}
                                 </div>
                                 <div className="mt-4">
                                     <button
@@ -149,4 +150,4 @@ function GroupCard({group, className=''}) {
     );
 }
 
-export default GroupCard;
+export default UserCard;

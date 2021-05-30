@@ -8,6 +8,7 @@ function ErrorRequestResultLabel({userReqResult, className=''}) {
         'post': 'Пост',
     }
     const { type, object_id, requested_id, analysis_type, result_description } = userReqResult;
+
     return (
         <div className={className}>
             <div className="border w-full rounded-md shadow-md hover:shadow-lg flex justify-between">

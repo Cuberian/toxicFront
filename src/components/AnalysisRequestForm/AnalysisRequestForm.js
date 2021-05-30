@@ -16,6 +16,7 @@ function AnalysisRequestForm() {
     async function submitHandler(data) {
         console.log(data)
         const { data: resData } = await $authMainHost.post('api/toxicity/analysis/request', data)
+        console.log(resData)
         if(resData.result === 'success')
         {
             setSendResultNumber(resData.requestNumber)

@@ -1,15 +1,13 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
 import {Context} from "../../index";
-import AnalysisRequestCard from "./AnalysisRequestCard";
 import {$authMainHost} from "../../http";
-import {useHistory} from "react-router-dom";
 import { Disclosure } from '@headlessui/react'
 import ReactPaginate from "react-paginate";
 import ResultDialog from "../ResultDialog";
 import { Transition } from '@headlessui/react';
-import UserCard from "../Toxicity/UserCard";
-import GroupCard from "../Toxicity/GroupCard";
-import PostCard from "../Toxicity/PostCard";
+import UserCard from "../Cards/UserCard";
+import GroupCard from "../Cards/GroupCard";
+import PostCard from "../Cards/PostCard";
 import {observer} from "mobx-react-lite";
 import ErrorRequestResultLabel from "../Toxicity/ErrorRequestResultLabel";
 
