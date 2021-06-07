@@ -41,6 +41,9 @@ function GroupCard({group, className=''}) {
                             <p className="text-md">{name}</p>
                         </div>
                     </div>
+                    <div className="flex flex-grow justify-end px-3 py-2">
+                        <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>
+                    </div>
                     <div className="flex bg-greenspace-400 items-center px-5 rounded-r-md min-w-1/4">
                         <span className="mx-auto text-xl">{Math.round(toxicity * 100)}%</span>
                     </div>
@@ -83,17 +86,17 @@ function GroupCard({group, className=''}) {
                             leaveTo="opacity-0 scale-95"
                         >
                             <div className="inline-block w-4/5 p-6 my-8 h-full text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                                <div className="flex h-5/6">
-                                    <div className="h-full w-2/6">
+                                <div className="lg:flex-row flex-col flex h-5/6">
+                                    <div className="h-full lg:w-2/6 w-full">
                                         <Dialog.Title
                                             as="h3"
                                             className="text-2xl font-medium leading-6 text-gray-900"
                                         >
                                             Группа #{id}
                                         </Dialog.Title>
-                                        <div className="flex flex-col space-y-5 mt-4 p-5 rounded-md justify-start">
+                                        <div className="flex lg:flex-col lg:space-x-0 space-x-4 justify-between lg:space-y-5 mt-4 p-5 rounded-md justify-start">
                                         <div className="flex flex-col space-y-3 h-full items-center">
-                                            <img src={avatar} alt="" className="h-32 w-32 rounded-md"/>
+                                            <img src={avatar} alt="" className="w-2/3 aspect-h-2 rounded-md"/>
                                             <div className="flex w-full">
                                                 <span
                                                     className="p-4 border border-greenspace-400 rounded-md
@@ -102,7 +105,7 @@ function GroupCard({group, className=''}) {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="flex h-full flex-col space-y-3 p-4 border bg-greenspace-400 rounded-md shadow-md">
+                                        <div className="flex h-full lg:w-full w-4/6 flex-col space-y-3 p-4 border bg-greenspace-400 rounded-md shadow-md">
                                             <div>
                                                 <span className="text-gray-700 font-medium">Полное название группы:</span>
                                                 <p className="text-sm text-gray-700">
@@ -122,24 +125,15 @@ function GroupCard({group, className=''}) {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="mt-4">
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                                                    onClick={closeModal}
-                                                >
-                                                    Закрыть
-                                                </button>
-                                            </div>
                                     </div>
                                     </div>
-                                    <div className="h-full w-4/6">
+                                    <div className="h-full lg:w-4/6 w-full">
                                         <p className="text-lg font-medium mt-3">Посты: </p>
-                                        <div className="mt-4 px-5 overflow-y-scroll h-full scrollbar scrollbar-thumb-greenspace-400">
-                                        <div className="flex flex-col space-y-4">
+                                        <div className="mt-4 px-5 overflow-y-scroll lg:h-full h-1/3 scrollbar scrollbar-thumb-greenspace-400">
+                                        <div className="flex flex-col space-y-4 mb-10">
                                             {groupPosts.length && groupPosts.map(item => {
                                                 return <div className="p-4 border shadow-md rounded-md">
-                                                    <p>{ item.text }</p>
+                                                    <p className="break-words">{ item.text }</p>
                                                     <p>{Math.round(item.toxicity * 100)}%</p>
                                                 </div>
                                             })}
@@ -147,7 +141,15 @@ function GroupCard({group, className=''}) {
                                     </div>
                                     </div>
                                 </div>
-
+                                <div className="mb-4 ml-5 absolute bottom-0">
+                                    <button
+                                        type="button"
+                                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                        onClick={closeModal}
+                                    >
+                                        Закрыть
+                                    </button>
+                                </div>
                             </div>
                         </Transition.Child>
                     </div>

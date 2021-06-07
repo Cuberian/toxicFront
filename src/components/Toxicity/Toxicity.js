@@ -52,6 +52,7 @@ function Toxicity(props) {
                     break
                 case 'groups':
                     getAllGroups().then(data => {
+                        console.log(data)
                         setSelectedTypeElements(data)
                     })
                     break

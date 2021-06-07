@@ -9,6 +9,16 @@ const Navbar =  observer((props) => {
 
     const {user} = useContext(Context);
 
+    const profileMenu = [
+        {title: 'Профиль', link: '/profile'},
+        {title: 'Выйти', link: '/logout'}
+    ]
+    const unloginMenu = [
+        {title: 'Войти', link: '/login'},
+        {title: 'Регистрация', link: '/register'}
+    ]
+
+
     return (
         <nav className="bg-gray-100 w-full">
             <div className="lg:px-20 px-8 mx-auto">
@@ -24,14 +34,13 @@ const Navbar =  observer((props) => {
                         <div className="lg:flex hidden items-center text-md uppercase space-x-8">
                             <Link to="/main" className="hover:text-greenspace-400">Главная</Link>
                             <Link to="/api" className="hover:text-greenspace-400">API</Link>
-                            <Link to="/toxicity" className="hover:text-greenspace-400">Анализ</Link>
-                            <Link to="/about" className="hover:text-greenspace-400">Контакты</Link>
+                            <Link to="/toxicity" className="hover:text-greenspace-400">База записей</Link>
                             <Link to="/analysis/request" className="hover:text-greenspace-400">Запрос на заявку</Link>
                         </div>
                     </div>
                     <div className="lg:flex hidden items-center">
                         <Menu>
-                            <Menu.Button as="img" src={user.user?.avatar} className="bg-greenspace-400 w-10 h-10 rounded-3xl"/>
+                            <Menu.Button as="img" src={user.isAuth && user.user.avatar ? user.user.avatar : '/protection.svg'} className="bg-greenspace-400 w-10 h-10 rounded-3xl"/>
                             <Transition
                                 as={Fragment}
                                 enter="transition ease-out duration-100"
@@ -43,28 +52,33 @@ const Navbar =  observer((props) => {
                             >
                                 <Menu.Items className="absolute right-0 w-56 mt-36 mr-20 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="px-1 py-1">
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    className={`${active && 'bg-greenspace-400'} 
+                                        {
+                                            user.isAuth ? profileMenu.map(item =>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            className={`${active && 'bg-greenspace-400'} 
                                                      group flex rounded-md items-center w-full px-2 py-2 text-lg`}
-                                                    to="/profile"
-                                                >
-                                                    Профиль
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            {({ active }) => (
-                                                <Link
-                                                    className={`${active && 'bg-greenspace-400'}  
-                                                    group flex rounded-md items-center w-full px-2 py-2 text-lg`}
-                                                    to="/logout"
-                                                >
-                                                    Выйти
-                                                </Link>
-                                            )}
-                                        </Menu.Item>
+                                                            to={ item.link }
+                                                        >
+                                                            { item.title }
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                            ) : unloginMenu.map(item =>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            className={`${active && 'bg-greenspace-400'} 
+                                                     group flex rounded-md items-center w-full px-2 py-2 text-lg`}
+                                                            to={ item.link }
+                                                        >
+                                                            { item.title }
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                            )
+                                        }
                                     </div>
                                 </Menu.Items>
                             </Transition>
@@ -81,10 +95,17 @@ const Navbar =  observer((props) => {
             </div>
             { isOpen &&
             <div className="lg:hidden uppercase flex flex-col">
-                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Главная</a>
-                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">API</a>
-                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Инфо</a>
-                <a href="#" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Контакты</a>
+                <Link to="/main" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Главная</Link>
+                <Link to="api" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">API</Link>
+                <Link to="/toxicity" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">База записей</Link>
+                <Link to="/analysis/request" className="hover:bg-greenspace-400 hover:text-white py-4 px-8">Запрос на анализ</Link>
+                {
+                    user.isAuth ? profileMenu.map(item =>
+                        <Link to={item.link} className="hover:bg-greenspace-400 hover:text-white py-4 px-8">{item.title}</Link>
+                    ) : unloginMenu.map(item =>
+                        <Link to={item.link} className="hover:bg-greenspace-400 hover:text-white py-4 px-8">{item.title}</Link>
+                    )
+                }
             </div>
             }
         </nav>

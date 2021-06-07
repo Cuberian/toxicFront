@@ -102,8 +102,6 @@ function AnalysisRequestForm() {
                                 disabled={fields.length === 0}>
                                 Отправить заявку
                             </button>
-                            <button className="px-3 py-2 bg-red-400 text-white hover:bg-red-600 rounded-md">Отменить
-                            </button>
                         </div>
 
                     </form>
