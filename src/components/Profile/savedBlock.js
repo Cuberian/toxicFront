@@ -25,6 +25,7 @@ const SavedBlock = observer(() => {
 
     useEffect(() => {
         getUserSavedRecords().then(data => {
+            console.log(data)
             setUserSavedRecords(data)
         })
     }, [])
@@ -38,7 +39,7 @@ const SavedBlock = observer(() => {
         const { data } = await $authMainHost.get('api/toxicity/user/saved-records')
         console.log(data)
         let records = []
-        for (const item of data)
+        for (const item of Object.values(data))
         {
             let obj =  {'type': item.object_type}
             let {data: record} = await $authMainHost.get('api/toxicity/'+objHelper[obj['type']] +'/'+item.object_id)
@@ -95,17 +96,17 @@ const SavedBlock = observer(() => {
             </div>
             <hr/>
             <div className="flex flex-grow overflow-hidden px-3">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4 auto-rows-min">
                     {
                         userSavedRecords.length > 0 && userSavedRecords
                         .slice(elementsVisited, elementsVisited + elementsPerPage)
                         .map((item, index) => {
                                 if (item.type === "user")
-                                    return <UserCard user={item.record} className="h-1/5"/>
+                                    return <UserCard user={item.record} className=""/>
                                 if (item.type === "group")
-                                    return <GroupCard group={item.record} className="flex h-1/5"/>
+                                    return <GroupCard group={item.record} className="flex"/>
                                 if (item.type === "post")
-                                    return <PostCard post={item.record} className="h-1/5"/>
+                                    return <PostCard post={item.record} className=""/>
                             })
                     }
                 </div>
