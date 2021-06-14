@@ -10,6 +10,7 @@ import PostCard from "../Cards/PostCard";
 import {observer} from "mobx-react-lite";
 import ErrorRequestResultLabel from "../Toxicity/ErrorRequestResultLabel";
 import RequestBlock from "./requestBlock";
+import SavedBlock from "./savedBlock";
 
 const Profile = observer(() => {
 
@@ -66,7 +67,8 @@ const Profile = observer(() => {
                </div>
            </div>
             <div className="w-full p-5 space-y-4">
-                <RequestBlock/>
+                { currentSection === 'requests' && <RequestBlock/>}
+                { currentSection === 'saved' && <SavedBlock/>}
             </div>
         </div>
     );

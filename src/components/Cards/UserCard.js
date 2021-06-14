@@ -5,9 +5,20 @@ import {$authMainHost} from "../../http";
 
 function UserCard({user, className=''}) {
 
-    const {id, wall_id, fullname, is_closed, toxicity, avatar} = user;
+    const {id, wall_id, fullname, is_closed, toxicity, avatar, is_saved} = user;
+    const [isSaved, setIsSaved] = useState(is_saved)
     let [isOpen, setIsOpen] = useState(false)
     const [userPosts, setUserPosts] = useState([])
+
+    async function changeSavedStatus() {
+        let data = null
+        if(isSaved)
+            data = await $authMainHost.delete('api/toxicity/user/saved-records/user/' + id)
+        else
+            data = await $authMainHost.post('api/toxicity/user/saved-records', {object_id: id, object_type: 'user'})
+
+        setIsSaved(!isSaved)
+    }
 
     function closeModal() {
         setIsOpen(false)
@@ -88,7 +99,16 @@ function UserCard({user, className=''}) {
                                     as="h3"
                                     className="text-2xl font-medium leading-6 text-gray-900"
                                 >
-                                    Пользователь #{id}
+                                    <div className="flex items-center space-x-4">
+                                        <span>Пользователь #{id}</span>
+                                        <svg className={`w-8 h-8 ${ isSaved ? 'text-red-400':'text-gray-400'}`}
+                                             onClick={() => changeSavedStatus()}
+                                             fill="currentColor"
+                                             viewBox="0 0 20 20"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                                        </svg>
+                                    </div>
                                 </Dialog.Title>
                                 <div className="flex space-x-10 mt-4 p-5 rounded-md justify-start">
                                     <div className="flex flex-col space-y-4">
